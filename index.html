@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Méritos - Concurso de Traslados Estatal 2026/2027 | BOE</title>
+  <meta name="description" content="Calculadora oficial de méritos para el Concurso de Traslados de ámbito estatal docente según la Orden EFD/1041/2026 del BOE.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Banner Superior Normativo -->
+  <header class="header-banner">
+    <div class="container">
+      <div class="header-content">
+        <div class="header-badge">
+          <span>🏛️</span> NORMATIVA OFICIAL DEL ESTADO
+        </div>
+        <h1 class="header-title">Calculadora de Méritos • Concurso de Traslados</h1>
+        <p class="header-subtitle">
+          Cálculo exacto del baremo de prioridades para el personal docente de los cuerpos contemplados en la LOE/LOMLOE, conforme a la <strong>Orden EFD/1041/2026, de 30 de septiembre</strong> (BOE núm. 248, de 6 de octubre de 2026).
+        </p>
+        <div class="header-meta">
+          <div class="meta-item">
+            <span>📅 Plazo solicitudes:</span> <strong>5 al 26 de noviembre de 2026</strong>
+          </div>
+          <div class="meta-item">
+            <span>🎯 Efectos de toma de posesión:</span> <strong>1 de septiembre de 2027</strong>
+          </div>
+          <div class="meta-item">
+            <span>📄 Disposición:</span> 
+            <a href="https://www.boe.es/boe/dias/2026/10/06/pdfs/BOE-A-2026-20763.pdf" target="_blank" rel="noopener noreferrer" class="meta-link">
+              BOE-A-2026-20763 (PDF Oficial) ↗
+            </a>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.45rem; flex-wrap:wrap;">
+            <a href="https://www.instagram.com/woodandprintpartners/" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:0.35rem; background:linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color:#ffffff; padding:0.35rem 0.85rem; border-radius:20px; text-decoration:none; font-weight:700; font-size:0.825rem; box-shadow:0 2px 4px rgba(220,39,67,0.2);" title="Regalos 3D y grabado láser personalizados para alumnos y profes">
+              <span>🎁</span> Wood & Print (@woodandprintpartners)
+            </a>
+            <a href="https://ko-fi.com/buscadorinterinos" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:0.35rem; background:#fef3c7; color:#92400e; padding:0.35rem 0.85rem; border-radius:20px; text-decoration:none; border:1px solid #fde68a; font-weight:700; font-size:0.825rem;" title="Ayuda a mantener la web activa">
+              <span>☕</span> Ayuda a mantener la web
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Barra de Acciones y Utilidades -->
+  <div class="action-bar">
+    <div class="container">
+      <div class="action-bar-inner">
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+          <div class="tab-switcher">
+            <button class="tab-btn active" id="tab_docentes">
+              <span>👨‍🏫</span> Cuerpos Docentes (Anexo III)
+            </button>
+          </div>
+          <a href="https://www.instagram.com/woodandprintpartners/" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:0.35rem; background:linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color:#ffffff; padding:0.35rem 0.85rem; border-radius:20px; text-decoration:none; font-weight:700; font-size:0.825rem; box-shadow:0 2px 4px rgba(220,39,67,0.2);" title="Regalos 3D y grabado láser personalizados para alumnos y profes">
+            <span>🎁</span> Wood & Print (@woodandprintpartners)
+          </a>
+          <a href="https://ko-fi.com/buscadorinterinos" target="_blank" rel="noopener noreferrer" class="btn-kofi-nav" title="Ayuda a mantener la web activa">
+            <span>☕</span> Donar / Ko-fi
+          </a>
+        </div>
+
+        <div class="top-actions">
+          <button class="btn btn-outline btn-sm" id="desempate_btn" title="Comprobar orden de resolución de empates según el BOE">
+            <span>⚖️</span> Criterios de Desempate
+          </button>
+          <button class="btn btn-outline btn-sm" id="export_btn" title="Descargar copia de seguridad en JSON">
+            <span>💾</span> Exportar Datos
+          </button>
+          <label class="btn btn-outline btn-sm" style="margin-bottom:0; cursor:pointer;" title="Recuperar datos de un archivo guardado">
+            <span>📂</span> Importar
+            <input type="file" id="import_file" accept=".json" style="display:none;">
+          </label>
+          <button class="btn btn-primary btn-sm" id="print_btn" title="Imprimir informe oficial del baremo o guardar como PDF">
+            <span>🖨️</span> Imprimir / Guardar PDF
+          </button>
+          <button class="btn btn-danger-outline btn-sm" id="reset_btn" title="Reiniciar todos los campos a cero">
+            <span>🔄</span> Borrar todo
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenedor Principal con Grid -->
+  <main class="container">
+    <div class="main-layout">
+
+      <!-- Columna Principal: Formulario del Baremo -->
+      <div class="content-column">
+
+        <!-- Cuadro de Perfiles de Prueba / Presets -->
+        <div class="presets-card">
+          <div class="presets-label">
+            <span>⚡ Cargar ejemplo rápido:</span>
+          </div>
+          <div class="presets-group">
+            <button class="preset-chip" data-preset="maestro_8">Maestro/a (8 años, Máster y Tutorías)</button>
+            <button class="preset-chip" data-preset="secundaria_15">Secundaria (15 años, Jefe Dpto y Publicaciones)</button>
+            <button class="preset-chip" data-preset="novel_practicas">Novel (1er destino definitivo)</button>
+            <button class="preset-chip" data-preset="catedratico">Catedrático/a con Directivo</button>
+          </div>
+        </div>
+
+        <!-- Cuadro Resumen de Impresión (Solo visible al imprimir) -->
+        <div class="print-summary-box">
+          <h2 style="font-size: 1.4rem; margin-bottom: 8px;">Informe Oficial de Baremación • Concurso de Traslados 2026/2027</h2>
+          <p style="font-size: 0.9rem; margin-bottom: 12px;">Normativa: Orden EFD/1041/2026, de 30 de septiembre (BOE 06/10/2026) - Anexo III</p>
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: 12px;">
+            <tr style="border-bottom: 1px solid #ccc;"><td>1. Antigüedad (Centro + Cuerpo)</td><td style="text-align: right; font-weight: bold;"><span id="print_val_b1">0,0000</span> pts</td></tr>
+            <tr style="border-bottom: 1px solid #ccc;"><td>2. Cuerpos de Catedráticos</td><td style="text-align: right; font-weight: bold;"><span id="print_val_b2">0,0000</span> pts</td></tr>
+            <tr style="border-bottom: 1px solid #ccc;"><td>3. Méritos académicos (Máx. 10)</td><td style="text-align: right; font-weight: bold;"><span id="print_val_b3">0,0000</span> pts</td></tr>
+            <tr style="border-bottom: 1px solid #ccc;"><td>4. Cargos directivos y otras funciones (Máx. 30)</td><td style="text-align: right; font-weight: bold;"><span id="print_val_b4">0,0000</span> pts</td></tr>
+            <tr style="border-bottom: 1px solid #ccc;"><td>5. Formación y perfeccionamiento (Máx. 15)</td><td style="text-align: right; font-weight: bold;"><span id="print_val_b5">0,0000</span> pts</td></tr>
+            <tr style="border-bottom: 1px solid #ccc;"><td>6. Otros méritos (Máx. 15)</td><td style="text-align: right; font-weight: bold;"><span id="print_val_b6">0,0000</span> pts</td></tr>
+            <tr style="border-top: 2px solid #000; font-size: 1.1rem; font-weight: bold; background: #eee;">
+              <td>PUNTUACIÓN TOTAL ESTIMADA:</td>
+              <td style="text-align: right;"><span id="print_grand_total">0,0000</span> puntos</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- BLOQUE 1: ANTIGÜEDAD -->
+        <!-- ======================================================== -->
+        <section class="section-card" id="card_bloque1">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <div class="section-icon section-icon-1">⏳</div>
+              <div>
+                <h2 class="section-title">1. Antigüedad</h2>
+                <div class="section-desc">Antigüedad en el centro y en el cuerpo docente (Sin límite de puntuación)</div>
+              </div>
+            </div>
+            <div class="section-badge-group">
+              <span class="max-badge">Sin tope</span>
+              <div class="subtotal-pill">
+                <span id="subtotal_b1">0,0000</span> <span style="font-size:0.75rem; color:var(--text-light);">pts</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-body">
+            <!-- 1.1.1 Destino Definitivo en el Centro -->
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">1.1.1. Permanencia ininterrumpida con destino definitivo en el centro actual</h3>
+                  <div class="section-desc">Años 1 y 2: 4,0000 pts/año (0,3333/mes) • Año 3: 6,0000 pts (0,5000/mes) • Año 4 y siguientes: 8,0000 pts/año (0,6666/mes)</div>
+                </div>
+                <div class="merit-subtotal"><span id="res_111">0,0000</span> pts</div>
+              </div>
+              <div class="time-inputs-row">
+                <div class="form-group">
+                  <label class="form-label" for="p111_y">Años completos:</label>
+                  <div class="input-with-stepper">
+                    <button class="stepper-btn" data-target="p111_y" data-step="-1">−</button>
+                    <input type="number" id="p111_y" min="0" max="50" value="0" class="num-input" data-bind="p111_y">
+                    <button class="stepper-btn" data-target="p111_y" data-step="1">+</button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="p111_m">Meses adicionales (0-11):</label>
+                  <div class="input-with-stepper">
+                    <button class="stepper-btn" data-target="p111_m" data-step="-1">−</button>
+                    <input type="number" id="p111_m" min="0" max="11" value="0" class="num-input" data-bind="p111_m">
+                    <button class="stepper-btn" data-target="p111_m" data-step="1">+</button>
+                  </div>
+                </div>
+              </div>
+              <div class="doc-accordion">
+                <button class="doc-toggle-btn"><span class="doc-icon">📄</span> Ver requisitos y documento justificativo BOE</button>
+                <div class="doc-content">
+                  <strong>Documento justificativo:</strong> Hoja de servicios expedida por la Administración educativa competente o título administrativo con diligencias de tomas de posesión y ceses.<br>
+                  <em>Notas:</em> Si se concursa desde situación de supresión de plaza o adscripción temporal en el exterior, se computa la permanencia ininterrumpida correspondiente conforme a las reglas del apartado 1.1.1.
+                </div>
+              </div>
+            </div>
+
+            <!-- 1.1.2 Provisionalidad -->
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">1.1.2. Años en situación de provisionalidad</h3>
+                  <div class="section-desc">4,0000 puntos por año (0,3333 por mes completo). Acumulable en primer destino voluntario.</div>
+                </div>
+                <div class="merit-subtotal"><span id="res_112">0,0000</span> pts</div>
+              </div>
+              <div class="time-inputs-row">
+                <div class="form-group">
+                  <label class="form-label" for="p112_y">Años provisional:</label>
+                  <div class="input-with-stepper">
+                    <button class="stepper-btn" data-target="p112_y" data-step="-1">−</button>
+                    <input type="number" id="p112_y" min="0" max="50" value="0" class="num-input" data-bind="p112_y">
+                    <button class="stepper-btn" data-target="p112_y" data-step="1">+</button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="p112_m">Meses (0-11):</label>
+                  <div class="input-with-stepper">
+                    <button class="stepper-btn" data-target="p112_m" data-step="-1">−</button>
+                    <input type="number" id="p112_m" min="0" max="11" value="0" class="num-input" data-bind="p112_m">
+                    <button class="stepper-btn" data-target="p112_m" data-step="1">+</button>
+                  </div>
+                </div>
+              </div>
+              <div class="doc-accordion">
+                <button class="doc-toggle-btn"><span class="doc-icon">📄</span> Documentación BOE</button>
+                <div class="doc-content">
+                  Hoja de servicios expedida por la Administración educativa. Cuando se trate de personal que participe voluntariamente desde su primer destino definitivo obtenido por concurso, a la puntuación del 1.1.1 se le sumará la de este subapartado.
+                </div>
+              </div>
+            </div>
+
+            <!-- 1.1.3 Especial Dificultad -->
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">1.1.3. Años en puesto o centro de Especial Dificultad</h3>
+                  <div class="section-desc">4,0000 puntos por año (0,3333 por mes completo). Se añade a 1.1.1 o 1.1.2.</div>
+                </div>
+                <div class="merit-subtotal"><span id="res_113">0,0000</span> pts</div>
+              </div>
+              <div class="time-inputs-row">
+                <div class="form-group">
+                  <label class="form-label" for="p113_y">Años especial dificultad:</label>
+                  <div class="input-with-stepper">
+                    <button class="stepper-btn" data-target="p113_y" data-step="-1">−</button>
+                    <input type="number" id="p113_y" min="0" max="50" value="0" class="num-input" data-bind="p113_y">
+                    <button class="stepper-btn" data-target="p113_y" data-step="1">+</button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="p113_m">Meses (0-11):</label>
+                  <div class="input-with-stepper">
+                    <button class="stepper-btn" data-target="p113_m" data-step="-1">−</button>
+                    <input type="number" id="p113_m" min="0" max="11" value="0" class="num-input" data-bind="p113_m">
+                    <button class="stepper-btn" data-target="p113_m" data-step="1">+</button>
+                  </div>
+                </div>
+              </div>
+              <div class="doc-accordion">
+                <button class="doc-toggle-btn"><span class="doc-icon">📄</span> Documentación BOE</button>
+                <div class="doc-content">
+                  Certificación de la Administración educativa acreditativa de que el puesto o centro tiene esa calificación expresa durante el periodo desempeñado.
+                </div>
+              </div>
+            </div>
+
+            <!-- 1.2.1 Cuerpo de la vacante -->
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">1.2.1. Servicios efectivos en el cuerpo de la vacante</h3>
+                  <div class="section-desc">2,0000 puntos por año (0,1666 por mes completo). Incluye carrera, prácticas e interinidad en el mismo cuerpo.</div>
+                </div>
+                <div class="merit-subtotal"><span id="res_121">0,0000</span> pts</div>
+              </div>
+              <div class="time-inputs-row">
+                <div class="form-group">
+                  <label class="form-label" for="p121_y">Años en el cuerpo:</label>
+                  <div class="input-with-stepper">
+                    <button class="stepper-btn" data-target="p121_y" data-step="-1">−</button>
+                    <input type="number" id="p121_y" min="0" max="50" value="0" class="num-input" data-bind="p121_y">
+                    <button class="stepper-btn" data-target="p121_y" data-step="1">+</button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="p121_m">Meses (0-11):</label>
+                  <div class="input-with-stepper">
+                    <button class="stepper-btn" data-target="p121_m" data-step="-1">−</button>
+                    <input type="number" id="p121_m" min="0" max="11" value="0" class="num-input" data-bind="p121_m">
+                    <button class="stepper-btn" data-target="p121_m" data-step="1">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 1.2.2 Otros cuerpos mismo/superior subgrupo -->
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">1.2.2. Servicios en otros cuerpos docentes del mismo o superior subgrupo</h3>
+                  <div class="section-desc">1,5000 puntos por año (0,1250 por mes completo).</div>
+                </div>
+                <div class="merit-subtotal"><span id="res_122">0,0000</span> pts</div>
+              </div>
+              <div class="time-inputs-row">
+                <div class="form-group">
+                  <label class="form-label" for="p122_y">Años:</label>
+                  <div class="input-with-stepper">
+                    <button class="stepper-btn" data-target="p122_y" data-step="-1">−</button>
+                    <input type="number" id="p122_y" min="0" max="50" value="0" class="num-input" data-bind="p122_y">
+                    <button class="stepper-btn" data-target="p122_y" data-step="1">+</button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="p122_m">Meses (0-11):</label>
+                  <div class="input-with-stepper">
+                    <button class="stepper-btn" data-target="p122_m" data-step="-1">−</button>
+                    <input type="number" id="p122_m" min="0" max="11" value="0" class="num-input" data-bind="p122_m">
+                    <button class="stepper-btn" data-target="p122_m" data-step="1">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 1.2.3 Otros cuerpos subgrupo inferior -->
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">1.2.3. Servicios en otros cuerpos docentes de subgrupo inferior</h3>
+                  <div class="section-desc">0,7500 puntos por año (0,0625 por mes completo). Ej: cuerpo de maestros si concursas a secundaria.</div>
+                </div>
+                <div class="merit-subtotal"><span id="res_123">0,0000</span> pts</div>
+              </div>
+              <div class="time-inputs-row">
+                <div class="form-group">
+                  <label class="form-label" for="p123_y">Años:</label>
+                  <div class="input-with-stepper">
+                    <button class="stepper-btn" data-target="p123_y" data-step="-1">−</button>
+                    <input type="number" id="p123_y" min="0" max="50" value="0" class="num-input" data-bind="p123_y">
+                    <button class="stepper-btn" data-target="p123_y" data-step="1">+</button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="p123_m">Meses (0-11):</label>
+                  <div class="input-with-stepper">
+                    <button class="stepper-btn" data-target="p123_m" data-step="-1">−</button>
+                    <input type="number" id="p123_m" min="0" max="11" value="0" class="num-input" data-bind="p123_m">
+                    <button class="stepper-btn" data-target="p123_m" data-step="1">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- BLOQUE 2: CÁTEDRAS -->
+        <!-- ======================================================== -->
+        <section class="section-card" id="card_bloque2">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <div class="section-icon section-icon-2">🎓</div>
+              <div>
+                <h2 class="section-title">2. Pertenencia a los Cuerpos de Catedráticos</h2>
+                <div class="section-desc">Catedráticos de Secundaria, EOI, Música y Artes Escénicas o Artes Plásticas y Diseño</div>
+              </div>
+            </div>
+            <div class="section-badge-group">
+              <span class="max-badge">Máx. 5,0000</span>
+              <div class="subtotal-pill">
+                <span id="subtotal_b2">0,0000</span> <span style="font-size:0.75rem; color:var(--text-light);">pts</span>
+              </div>
+            </div>
+          </div>
+          <div class="section-body">
+            <div class="merit-item">
+              <label class="custom-checkbox-wrap">
+                <input type="checkbox" id="catedra_check" class="checkbox-input" data-bind="catedra">
+                <div class="custom-checkbox">
+                  <span class="checkbox-icon">✓</span>
+                </div>
+                <div>
+                  <strong style="font-size:1rem;">Soy funcionario/a de carrera del Cuerpo de Catedráticos</strong>
+                  <div class="section-desc">Asigna directamente 5,0000 puntos al baremo conforme al Apartado 2 del BOE.</div>
+                </div>
+              </label>
+              <div class="doc-accordion">
+                <button class="doc-toggle-btn"><span class="doc-icon">📄</span> Justificación requerida</button>
+                <div class="doc-content">
+                  Hoja de servicios donde conste la pertenencia al cuerpo de Catedráticos o credencial / Diario Oficial con el nombramiento.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- BLOQUE 3: MÉRITOS ACADÉMICOS -->
+        <!-- ======================================================== -->
+        <section class="section-card" id="card_bloque3">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <div class="section-icon section-icon-3">📚</div>
+              <div>
+                <h2 class="section-title">3. Méritos Académicos</h2>
+                <div class="section-desc">Doctorado, postgrados, titulaciones de nivel superior, FP y enseñanzas de idiomas</div>
+              </div>
+            </div>
+            <div class="section-badge-group">
+              <span class="max-badge">Máximo 10,0000</span>
+              <div class="subtotal-pill">
+                <span id="subtotal_b3">0,0000</span> <span style="font-size:0.75rem; color:var(--text-light);">pts</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-body">
+            <!-- 3.1 Postgrados y Doctorado -->
+            <div style="font-weight: 700; color: var(--accent-3); font-size: 0.95rem; border-bottom: 2px solid var(--accent-3); padding-bottom: 4px;">
+              3.1. Doctorado, postgrados y premios extraordinarios
+            </div>
+
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">3.1.1. Título de Doctor o Doctora (6,0000 pts c/u)</h3>
+                </div>
+                <div class="merit-subtotal"><span id="res_311">0,0000</span> pts</div>
+              </div>
+              <div class="input-with-stepper" style="max-width: 180px;">
+                <button class="stepper-btn" data-target="p311" data-step="-1">−</button>
+                <input type="number" id="p311" min="0" max="5" value="0" class="num-input" data-bind="p311">
+                <button class="stepper-btn" data-target="p311" data-step="1">+</button>
+              </div>
+            </div>
+
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">3.1.2. Título oficial de Máster universitario (3,0000 pts c/u)</h3>
+                  <div class="section-desc">Excluido el máster que sea requisito de acceso al cuerpo (ej. MAES) o al doctorado alegado.</div>
+                </div>
+                <div class="merit-subtotal"><span id="res_312">0,0000</span> pts</div>
+              </div>
+              <div class="input-with-stepper" style="max-width: 180px;">
+                <button class="stepper-btn" data-target="p312" data-step="-1">−</button>
+                <input type="number" id="p312" min="0" max="5" value="0" class="num-input" data-bind="p312">
+                <button class="stepper-btn" data-target="p312" data-step="1">+</button>
+              </div>
+            </div>
+
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">3.1.3. Suficiencia investigadora / Diploma de Estudios Avanzados (DEA) (2,0000 pts)</h3>
+                </div>
+                <div class="merit-subtotal"><span id="res_313">0,0000</span> pts</div>
+              </div>
+              <div class="input-with-stepper" style="max-width: 180px;">
+                <button class="stepper-btn" data-target="p313" data-step="-1">−</button>
+                <input type="number" id="p313" min="0" max="2" value="0" class="num-input" data-bind="p313">
+                <button class="stepper-btn" data-target="p313" data-step="1">+</button>
+              </div>
+            </div>
+
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">3.1.4. Premio extraordinario en doctorado, licenciatura o grado (1,0000 pto)</h3>
+                </div>
+                <div class="merit-subtotal"><span id="res_314">0,0000</span> pts</div>
+              </div>
+              <div class="input-with-stepper" style="max-width: 180px;">
+                <button class="stepper-btn" data-target="p314" data-step="-1">−</button>
+                <input type="number" id="p314" min="0" max="4" value="0" class="num-input" data-bind="p314">
+                <button class="stepper-btn" data-target="p314" data-step="1">+</button>
+              </div>
+            </div>
+
+            <!-- 3.2 Otras Titulaciones -->
+            <div style="font-weight: 700; color: var(--accent-3); font-size: 0.95rem; border-bottom: 2px solid var(--accent-3); padding-bottom: 4px; margin-top: 10px;">
+              3.2. Otras titulaciones de nivel superior (distintas a las de ingreso)
+            </div>
+
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">3.2.1. Grado Universitario completo (5,0000 pts c/u)</h3>
+                  <div class="section-desc">Distinto del exigido para el ingreso. Cursado íntegramente.</div>
+                </div>
+                <div class="merit-subtotal"><span id="res_321a">0,0000</span> pts</div>
+              </div>
+              <div class="input-with-stepper" style="max-width: 180px;">
+                <button class="stepper-btn" data-target="p321a" data-step="-1">−</button>
+                <input type="number" id="p321a" min="0" max="3" value="0" class="num-input" data-bind="p321a">
+                <button class="stepper-btn" data-target="p321a" data-step="1">+</button>
+              </div>
+            </div>
+
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">3.2.1. Grado obtenido por pasarela / convalidación parcial (2,5000 pts c/u)</h3>
+                  <div class="section-desc">Cuando deriva de otra titulación previa y no se cursa la totalidad de las enseñanzas.</div>
+                </div>
+                <div class="merit-subtotal"><span id="res_321b">0,0000</span> pts</div>
+              </div>
+              <div class="input-with-stepper" style="max-width: 180px;">
+                <button class="stepper-btn" data-target="p321b" data-step="-1">−</button>
+                <input type="number" id="p321b" min="0" max="3" value="0" class="num-input" data-bind="p321b">
+                <button class="stepper-btn" data-target="p321b" data-step="1">+</button>
+              </div>
+            </div>
+
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">3.2.2. Diplomatura, Ing. Técnica o 1er ciclo de Licenciatura adicional (3,0000 pts c/u)</h3>
+                </div>
+                <div class="merit-subtotal"><span id="res_322">0,0000</span> pts</div>
+              </div>
+              <div class="input-with-stepper" style="max-width: 180px;">
+                <button class="stepper-btn" data-target="p322" data-step="-1">−</button>
+                <input type="number" id="p322" min="0" max="4" value="0" class="num-input" data-bind="p322">
+                <button class="stepper-btn" data-target="p322" data-step="1">+</button>
+              </div>
+            </div>
+
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">3.2.3. Segundo ciclo de Licenciatura, Ing. o Arquitectura adicional (3,0000 pts c/u)</h3>
+                </div>
+                <div class="merit-subtotal"><span id="res_323">0,0000</span> pts</div>
+              </div>
+              <div class="input-with-stepper" style="max-width: 180px;">
+                <button class="stepper-btn" data-target="p323" data-step="-1">−</button>
+                <input type="number" id="p323" min="0" max="4" value="0" class="num-input" data-bind="p323">
+                <button class="stepper-btn" data-target="p323" data-step="1">+</button>
+              </div>
+            </div>
+
+            <!-- 3.3 Régimen Especial, Idiomas EOI y FP -->
+            <div style="font-weight: 700; color: var(--accent-3); font-size: 0.95rem; border-bottom: 2px solid var(--accent-3); padding-bottom: 4px; margin-top: 10px;">
+              3.3. Idiomas Escuelas Oficiales de Idiomas (EOI), FP Superior y Artísticas
+            </div>
+
+            <!-- Idiomas EOI -->
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">Certificados oficiales de Idiomas EOI (Escuelas Oficiales de Idiomas)</h3>
+                  <div class="section-desc">C2: 4 pts • C1: 3 pts • B2: 2 pts • B1: 1 pto (Solo el nivel superior por cada idioma)</div>
+                </div>
+                <div class="merit-subtotal"><span id="res_33_idiomas">0,0000</span> pts</div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 8px;">
+                <div class="form-group">
+                  <label class="form-label">🇬🇧 Inglés EOI:</label>
+                  <select class="select-input" data-bind="idioma_ingles_eoi">
+                    <option value="0">Ninguno (0 pts)</option>
+                    <option value="1.0">B1 EOI (1,0000 pto)</option>
+                    <option value="2.0">B2 EOI (2,0000 pts)</option>
+                    <option value="3.0">C1 EOI (3,0000 pts)</option>
+                    <option value="4.0">C2 EOI (4,0000 pts)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">🇫🇷 Francés EOI:</label>
+                  <select class="select-input" data-bind="idioma_frances_eoi">
+                    <option value="0">Ninguno (0 pts)</option>
+                    <option value="1.0">B1 EOI (1,0000 pto)</option>
+                    <option value="2.0">B2 EOI (2,0000 pts)</option>
+                    <option value="3.0">C1 EOI (3,0000 pts)</option>
+                    <option value="4.0">C2 EOI (4,0000 pts)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">🇩🇪 Alemán EOI:</label>
+                  <select class="select-input" data-bind="idioma_aleman_eoi">
+                    <option value="0">Ninguno (0 pts)</option>
+                    <option value="1.0">B1 EOI (1,0000 pto)</option>
+                    <option value="2.0">B2 EOI (2,0000 pts)</option>
+                    <option value="3.0">C1 EOI (3,0000 pts)</option>
+                    <option value="4.0">C2 EOI (4,0000 pts)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">🇮🇹 Italiano EOI:</label>
+                  <select class="select-input" data-bind="idioma_italiano_eoi">
+                    <option value="0">Ninguno (0 pts)</option>
+                    <option value="1.0">B1 EOI (1,0000 pto)</option>
+                    <option value="2.0">B2 EOI (2,0000 pts)</option>
+                    <option value="3.0">C1 EOI (3,0000 pts)</option>
+                    <option value="4.0">C2 EOI (4,0000 pts)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">🌐 Otro idioma EOI:</label>
+                  <select class="select-input" data-bind="idioma_otro_eoi">
+                    <option value="0">Ninguno (0 pts)</option>
+                    <option value="1.0">B1 EOI (1,0000 pto)</option>
+                    <option value="2.0">B2 EOI (2,0000 pts)</option>
+                    <option value="3.0">C1 EOI (3,0000 pts)</option>
+                    <option value="4.0">C2 EOI (4,0000 pts)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Lengua de Signos Española (DLSE) RD 262/2026 -->
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">Diplomas de Lengua de Signos Española (DLSE - RD 262/2026)</h3>
+                  <div class="section-desc">Valorados en el apartado 3.3 con los mismos efectos que los certificados de idiomas de régimen especial.</div>
+                </div>
+                <div class="merit-subtotal"><span id="res_33_dlse">0,0000</span> pts</div>
+              </div>
+              <div style="max-width: 280px;">
+                <select class="select-input" data-bind="p33_dlse">
+                  <option value="0">Ninguno (0 pts)</option>
+                  <option value="1.0">Nivel B1 DLSE (1,0000 pto)</option>
+                  <option value="2.0">Nivel B2 DLSE (2,0000 pts)</option>
+                  <option value="3.0">Nivel C1 DLSE (3,0000 pts)</option>
+                  <option value="4.0">Nivel C2 DLSE (4,0000 pts)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">3.3.e. Técnico Superior FP, Artes Plásticas y Diseño o Deportivo (2,0000 pts c/u)</h3>
+                </div>
+                <div class="merit-subtotal"><span id="res_33_fp">0,0000</span> pts</div>
+              </div>
+              <div class="input-with-stepper" style="max-width: 180px;">
+                <button class="stepper-btn" data-target="p33_fp" data-step="-1">−</button>
+                <input type="number" id="p33_fp" min="0" max="4" value="0" class="num-input" data-bind="p33_fp">
+                <button class="stepper-btn" data-target="p33_fp" data-step="1">+</button>
+              </div>
+            </div>
+
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">3.3.f. Título Profesional de Música o Danza (2,0000 pts c/u)</h3>
+                </div>
+                <div class="merit-subtotal"><span id="res_33_mus">0,0000</span> pts</div>
+              </div>
+              <div class="input-with-stepper" style="max-width: 180px;">
+                <button class="stepper-btn" data-target="p33_mus" data-step="-1">−</button>
+                <input type="number" id="p33_mus" min="0" max="4" value="0" class="num-input" data-bind="p33_mus">
+                <button class="stepper-btn" data-target="p33_mus" data-step="1">+</button>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- BLOQUE 4: CARGOS DIRECTIVOS -->
+        <!-- ======================================================== -->
+        <section class="section-card" id="card_bloque4">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <div class="section-icon section-icon-4">👥</div>
+              <div>
+                <h2 class="section-title">4. Cargos Directivos y Otras Funciones</h2>
+                <div class="section-desc">Dirección, equipos directivos, jefatura de departamento, coordinación y tutorías LOE</div>
+              </div>
+            </div>
+            <div class="section-badge-group">
+              <span class="max-badge">Máximo 30,0000</span>
+              <div class="subtotal-pill">
+                <span id="subtotal_b4">0,0000</span> <span style="font-size:0.75rem; color:var(--text-light);">pts</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-body">
+            <!-- 4.1 Director -->
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">4.1. Director/a de centros públicos, CPR/CEP o ALCE</h3>
+                  <div class="section-desc">4,5000 puntos por año (0,3750 por mes completo).</div>
+                </div>
+                <div class="merit-subtotal"><span id="res_41">0,0000</span> pts</div>
+              </div>
+              <div class="time-inputs-row">
+                <div class="form-group">
+                  <label class="form-label" for="p41_y">Años director:</label>
+                  <div class="input-with-stepper">
+                    <button class="stepper-btn" data-target="p41_y" data-step="-1">−</button>
+                    <input type="number" id="p41_y" min="0" max="40" value="0" class="num-input" data-bind="p41_y">
+                    <button class="stepper-btn" data-target="p41_y" data-step="1">+</button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="p41_m">Meses (0-11):</label>
+                  <div class="input-with-stepper">
+                    <button class="stepper-btn" data-target="p41_m" data-step="-1">−</button>
+                    <input type="number" id="p41_m" min="0" max="11" value="0" class="num-input" data-bind="p41_m">
+                    <button class="stepper-btn" data-target="p41_m" data-step="1">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4.2 Vicedirector, J. Estudios, Secr. -->
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">4.2. Vicedirector/a, Subdirector/a, Jefe/a de Estudios, Secretario/a</h3>
+                  <div class="section-desc">3,0000 puntos por año (0,2500 por mes completo).</div>
+                </div>
+                <div class="merit-subtotal"><span id="res_42">0,0000</span> pts</div>
+              </div>
+              <div class="time-inputs-row">
+                <div class="form-group">
+                  <label class="form-label" for="p42_y">Años equipo directivo:</label>
+                  <div class="input-with-stepper">
+                    <button class="stepper-btn" data-target="p42_y" data-step="-1">−</button>
+                    <input type="number" id="p42_y" min="0" max="40" value="0" class="num-input" data-bind="p42_y">
+                    <button class="stepper-btn" data-target="p42_y" data-step="1">+</button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="p42_m">Meses (0-11):</label>
+                  <div class="input-with-stepper">
+                    <button class="stepper-btn" data-target="p42_m" data-step="-1">−</button>
+                    <input type="number" id="p42_m" min="0" max="11" value="0" class="num-input" data-bind="p42_m">
+                    <button class="stepper-btn" data-target="p42_m" data-step="1">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4.3 Coordinación, Tutorías LOE, J. Dpto -->
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">4.3. Jefatura de departamento, Coordinación de ciclo y Tutorías LOE</h3>
+                  <div class="section-desc">1,5000 puntos por año (0,1250 por mes completo). <strong>Tope específico de 10,0000 pts en este subapartado.</strong></div>
+                </div>
+                <div class="merit-subtotal"><span id="res_43">0,0000</span> pts</div>
+              </div>
+              <div class="time-inputs-row">
+                <div class="form-group">
+                  <label class="form-label" for="p43_y">Años coordinación/tutoría:</label>
+                  <div class="input-with-stepper">
+                    <button class="stepper-btn" data-target="p43_y" data-step="-1">−</button>
+                    <input type="number" id="p43_y" min="0" max="40" value="0" class="num-input" data-bind="p43_y">
+                    <button class="stepper-btn" data-target="p43_y" data-step="1">+</button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="p43_m">Meses (0-11):</label>
+                  <div class="input-with-stepper">
+                    <button class="stepper-btn" data-target="p43_m" data-step="-1">−</button>
+                    <input type="number" id="p43_m" min="0" max="11" value="0" class="num-input" data-bind="p43_m">
+                    <button class="stepper-btn" data-target="p43_m" data-step="1">+</button>
+                  </div>
+                </div>
+              </div>
+              <div class="doc-accordion">
+                <button class="doc-toggle-btn"><span class="doc-icon">📄</span> Requisitos de simultaneidad BOE</button>
+                <div class="doc-content">
+                  En el caso de que se haya desempeñado simultáneamente más de uno de estos cargos y/o funciones, no podrá acumularse la puntuación para el mismo período, valorándose el más ventajoso.
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- BLOQUE 5: FORMACIÓN -->
+        <!-- ======================================================== -->
+        <section class="section-card" id="card_bloque5">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <div class="section-icon section-icon-5">💡</div>
+              <div>
+                <h2 class="section-title">5. Formación y Perfeccionamiento</h2>
+                <div class="section-desc">Cursos superados e impartidos, especialidades, competencia digital docente e idiomas ACLES</div>
+              </div>
+            </div>
+            <div class="section-badge-group">
+              <span class="max-badge">Máximo 15,0000</span>
+              <div class="subtotal-pill">
+                <span id="subtotal_b5">0,0000</span> <span style="font-size:0.75rem; color:var(--text-light);">pts</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-body">
+            <!-- 5.1 Cursos Recibidos -->
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">5.1. Actividades de formación superadas (cursos recibidos)</h3>
+                  <div class="section-desc">0,1000 puntos por cada 10 horas completas (1 crédito = 10 horas). <strong>Máximo 9,0000 puntos (900 horas).</strong></div>
+                </div>
+                <div class="merit-subtotal"><span id="res_51">0,0000</span> pts</div>
+              </div>
+              <div style="display: flex; gap: 12px; align-items: center; max-width: 260px;">
+                <input type="number" id="p51_horas" min="0" max="3000" step="10" value="0" class="select-input" data-bind="p51_horas" placeholder="Nº de horas totales">
+                <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">horas</span>
+              </div>
+            </div>
+
+            <!-- 5.2 Cursos Impartidos -->
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">5.2. Impartición de actividades de formación (cursos impartidos)</h3>
+                  <div class="section-desc">0,1000 puntos por cada 3 horas completas. <strong>Máximo 3,0000 puntos (90 horas).</strong></div>
+                </div>
+                <div class="merit-subtotal"><span id="res_52">0,0000</span> pts</div>
+              </div>
+              <div style="display: flex; gap: 12px; align-items: center; max-width: 260px;">
+                <input type="number" id="p52_horas" min="0" max="1000" step="3" value="0" class="select-input" data-bind="p52_horas" placeholder="Nº de horas impartidas">
+                <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">horas</span>
+              </div>
+            </div>
+
+            <!-- 5.3 Nuevas Especialidades -->
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">5.3. Nuevas especialidades adquiridas por procedimiento oficial (RD 850/93, etc.)</h3>
+                  <div class="section-desc">1,0000 punto por cada nueva especialidad distinta a la de ingreso.</div>
+                </div>
+                <div class="merit-subtotal"><span id="res_53">0,0000</span> pts</div>
+              </div>
+              <div class="input-with-stepper" style="max-width: 180px;">
+                <button class="stepper-btn" data-target="p53_esp" data-step="-1">−</button>
+                <input type="number" id="p53_esp" min="0" max="5" value="0" class="num-input" data-bind="p53_esp">
+                <button class="stepper-btn" data-target="p53_esp" data-step="1">+</button>
+              </div>
+            </div>
+
+            <!-- 5.4 Competencia Digital Docente -->
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">5.4. Acreditación de la Competencia Digital Docente (CDD)</h3>
+                  <div class="section-desc">A1: 0.5 • A2: 1.0 • B1: 1.5 • B2: 2.0 • C1: 2.5 • C2: 3.0 pts. <strong>Solo puntúa el nivel más alto.</strong></div>
+                </div>
+                <div class="merit-subtotal"><span id="res_54">0,0000</span> pts</div>
+              </div>
+              <div style="max-width: 320px;">
+                <select class="select-input" data-bind="p54_digital">
+                  <option value="0">Sin acreditación (0 pts)</option>
+                  <option value="0.5">Nivel A1 de CDD (0,5000 pts)</option>
+                  <option value="1.0">Nivel A2 de CDD (1,0000 pto)</option>
+                  <option value="1.5">Nivel B1 de CDD (1,5000 pts)</option>
+                  <option value="2.0">Nivel B2 de CDD (2,0000 pts)</option>
+                  <option value="2.5">Nivel C1 de CDD (2,5000 pts)</option>
+                  <option value="3.0">Nivel C2 de CDD (3,0000 pts)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- 5.5 Idiomas no EOI (ACLES / MCER) -->
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">5.5. Idiomas extranjeros acreditados no EOI (reconocidos por ACLES / Marco Europeo)</h3>
+                  <div class="section-desc">C2: 4 pts • C1: 3 pts • B2: 2 pts • B1: 1 pto (No acumulable con el mismo idioma en el apartado 3.3).</div>
+                </div>
+                <div class="merit-subtotal"><span id="res_55">0,0000</span> pts</div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 8px;">
+                <div class="form-group">
+                  <label class="form-label">🇬🇧 Inglés ACLES/MCER:</label>
+                  <select class="select-input" data-bind="idioma_ingles_no_eoi">
+                    <option value="0">Ninguno</option>
+                    <option value="1.0">B1 (1,0000 pto)</option>
+                    <option value="2.0">B2 (2,0000 pts)</option>
+                    <option value="3.0">C1 (3,0000 pts)</option>
+                    <option value="4.0">C2 (4,0000 pts)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">🇫🇷 Francés ACLES/MCER:</label>
+                  <select class="select-input" data-bind="idioma_frances_no_eoi">
+                    <option value="0">Ninguno</option>
+                    <option value="1.0">B1 (1,0000 pto)</option>
+                    <option value="2.0">B2 (2,0000 pts)</option>
+                    <option value="3.0">C1 (3,0000 pts)</option>
+                    <option value="4.0">C2 (4,0000 pts)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">🇩🇪 Alemán ACLES/MCER:</label>
+                  <select class="select-input" data-bind="idioma_aleman_no_eoi">
+                    <option value="0">Ninguno</option>
+                    <option value="1.0">B1 (1,0000 pto)</option>
+                    <option value="2.0">B2 (2,0000 pts)</option>
+                    <option value="3.0">C1 (3,0000 pts)</option>
+                    <option value="4.0">C2 (4,0000 pts)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">🇮🇹 Italiano ACLES/MCER:</label>
+                  <select class="select-input" data-bind="idioma_italiano_no_eoi">
+                    <option value="0">Ninguno</option>
+                    <option value="1.0">B1 (1,0000 pto)</option>
+                    <option value="2.0">B2 (2,0000 pts)</option>
+                    <option value="3.0">C1 (3,0000 pts)</option>
+                    <option value="4.0">C2 (4,0000 pts)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">🌐 Otro idioma ACLES/MCER:</label>
+                  <select class="select-input" data-bind="idioma_otro_no_eoi">
+                    <option value="0">Ninguno</option>
+                    <option value="1.0">B1 (1,0000 pto)</option>
+                    <option value="2.0">B2 (2,0000 pts)</option>
+                    <option value="3.0">C1 (3,0000 pts)</option>
+                    <option value="4.0">C2 (4,0000 pts)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- BLOQUE 6: OTROS MÉRITOS -->
+        <!-- ======================================================== -->
+        <section class="section-card" id="card_bloque6">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <div class="section-icon section-icon-6">🏆</div>
+              <div>
+                <h2 class="section-title">6. Otros Méritos</h2>
+                <div class="section-desc">Publicaciones científicas/didácticas, premios, puestos en administración, tribunales y tutorías de prácticas</div>
+              </div>
+            </div>
+            <div class="section-badge-group">
+              <span class="max-badge">Máximo 15,0000</span>
+              <div class="subtotal-pill">
+                <span id="subtotal_b6">0,0000</span> <span style="font-size:0.75rem; color:var(--text-light);">pts</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-body">
+            <!-- 6.1 Publicaciones -->
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">6.1. Publicaciones con ISBN/ISSN (Máximo 8,0000 pts en 6.1)</h3>
+                  <div class="section-desc">Libros (depósito legal, distribución comercial) y revistas especializadas.</div>
+                </div>
+                <div class="merit-subtotal"><span id="res_61">0,0000</span> pts</div>
+              </div>
+
+              <!-- Libros -->
+              <div style="font-size:0.86rem; font-weight:700; color:var(--text-muted); margin-bottom:8px;">Libros con ISBN:</div>
+              <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap:10px; margin-bottom:14px;">
+                <div class="form-group">
+                  <label class="form-label">Autor único (1 pto):</label>
+                  <input type="number" min="0" max="20" value="0" class="select-input" data-bind="p61_lib_aut">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Coautor 2 aut. (0.5 pts):</label>
+                  <input type="number" min="0" max="20" value="0" class="select-input" data-bind="p61_lib_coaut">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">3 autores (0.4 pts):</label>
+                  <input type="number" min="0" max="20" value="0" class="select-input" data-bind="p61_lib_3">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">4 autores (0.3 pts):</label>
+                  <input type="number" min="0" max="20" value="0" class="select-input" data-bind="p61_lib_4">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">5 autores (0.2 pts):</label>
+                  <input type="number" min="0" max="20" value="0" class="select-input" data-bind="p61_lib_5">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">&gt; 5 autores (0.1 pts):</label>
+                  <input type="number" min="0" max="20" value="0" class="select-input" data-bind="p61_lib_mas5">
+                </div>
+              </div>
+
+              <!-- Revistas -->
+              <div style="font-size:0.86rem; font-weight:700; color:var(--text-muted); margin-bottom:8px;">Artículos en Revistas con ISSN:</div>
+              <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap:10px;">
+                <div class="form-group">
+                  <label class="form-label">Autor (0.2 pts):</label>
+                  <input type="number" min="0" max="40" value="0" class="select-input" data-bind="p61_rev_aut">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Coautor (0.1 pts):</label>
+                  <input type="number" min="0" max="40" value="0" class="select-input" data-bind="p61_rev_coaut">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">3 o más aut. (0.05 pts):</label>
+                  <input type="number" min="0" max="40" value="0" class="select-input" data-bind="p61_rev_3mas">
+                </div>
+              </div>
+            </div>
+
+            <!-- 6.2 Premios y proyectos de innovación -->
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">6.2. Premios educativos y proyectos de innovación o investigación</h3>
+                  <div class="section-desc">Convocados por el Ministerio o Consejerías. Máximo 2,5000 puntos.</div>
+                </div>
+                <div class="merit-subtotal"><span id="res_62">0,0000</span> pts</div>
+              </div>
+              <div style="max-width: 200px;">
+                <input type="number" min="0" max="2.5" step="0.1" value="0" class="select-input" data-bind="p62_pts" placeholder="Puntos (hasta 2.5)">
+              </div>
+            </div>
+
+            <!-- 6.3 Méritos artísticos y deportivos -->
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">6.3. Méritos artísticos y condición de deportista de alto nivel o rendimiento</h3>
+                  <div class="section-desc">Deportista alto nivel (1 pto), alto rendimiento (0.5 pts), premios artísticos/conciertos. Máx 2,5000 pts.</div>
+                </div>
+                <div class="merit-subtotal"><span id="res_63">0,0000</span> pts</div>
+              </div>
+              <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:10px;">
+                <div class="form-group">
+                  <label class="form-label">Deportista alto nivel (1 pto):</label>
+                  <input type="number" min="0" max="1" value="0" class="select-input" data-bind="p63_dep_alto_nivel">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Alto rendimiento (0.5 pts):</label>
+                  <input type="number" min="0" max="1" value="0" class="select-input" data-bind="p63_dep_rendimiento">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Méritos artísticos (pts):</label>
+                  <input type="number" min="0" max="2.5" step="0.1" value="0" class="select-input" data-bind="p63_artistico_pts" placeholder="Puntos artísticos">
+                </div>
+              </div>
+            </div>
+
+            <!-- 6.4 Puestos en la Administración -->
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">6.4. Servicios en puestos de la Administración educativa</h3>
+                  <div class="section-desc">Nivel de complemento de destino igual o superior al del cuerpo docente. 1,5000 pts/año (0,1250/mes).</div>
+                </div>
+                <div class="merit-subtotal"><span id="res_64">0,0000</span> pts</div>
+              </div>
+              <div class="time-inputs-row">
+                <div class="form-group">
+                  <label class="form-label">Años en admón:</label>
+                  <div class="input-with-stepper">
+                    <button class="stepper-btn" data-target="p64_y" data-step="-1">−</button>
+                    <input type="number" id="p64_y" min="0" max="30" value="0" class="num-input" data-bind="p64_y">
+                    <button class="stepper-btn" data-target="p64_y" data-step="1">+</button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Meses (0-11):</label>
+                  <div class="input-with-stepper">
+                    <button class="stepper-btn" data-target="p64_m" data-step="-1">−</button>
+                    <input type="number" id="p64_m" min="0" max="11" value="0" class="num-input" data-bind="p64_m">
+                    <button class="stepper-btn" data-target="p64_m" data-step="1">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 6.5 Tribunales de Oposiciones -->
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">6.5. Miembro de tribunales de oposiciones docentes LOE (desde RD 276/2007)</h3>
+                  <div class="section-desc">0,5000 puntos por cada convocatoria selectiva en la que se haya actuado efectivamente.</div>
+                </div>
+                <div class="merit-subtotal"><span id="res_65">0,0000</span> pts</div>
+              </div>
+              <div class="input-with-stepper" style="max-width: 180px;">
+                <button class="stepper-btn" data-target="p65_tribunales" data-step="-1">−</button>
+                <input type="number" id="p65_tribunales" min="0" max="20" value="0" class="num-input" data-bind="p65_tribunales">
+                <button class="stepper-btn" data-target="p65_tribunales" data-step="1">+</button>
+              </div>
+            </div>
+
+            <!-- 6.6 Tutorización de Prácticas -->
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">6.6. Tutorización de prácticas universitarias o de funcionarios</h3>
+                </div>
+                <div class="merit-subtotal"><span id="res_66">0,0000</span> pts</div>
+              </div>
+              <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:12px;">
+                <div class="form-group">
+                  <label class="form-label">Cursos tutor Máster / Grado (0,1000 pto/curso):</label>
+                  <div class="input-with-stepper">
+                    <button class="stepper-btn" data-target="p66_master_grado" data-step="-1">−</button>
+                    <input type="number" id="p66_master_grado" min="0" max="30" value="0" class="num-input" data-bind="p66_master_grado">
+                    <button class="stepper-btn" data-target="p66_master_grado" data-step="1">+</button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Cursos tutor func. en prácticas desde 23/24 (0,2000 pto/curso):</label>
+                  <div class="input-with-stepper">
+                    <button class="stepper-btn" data-target="p66_func_practicas" data-step="-1">−</button>
+                    <input type="number" id="p66_func_practicas" min="0" max="10" value="0" class="num-input" data-bind="p66_func_practicas">
+                    <button class="stepper-btn" data-target="p66_func_practicas" data-step="1">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 6.7 Plazas en CCAA con particularidad lingüística -->
+            <div class="merit-item">
+              <div class="merit-item-header">
+                <div>
+                  <h3 class="merit-title">6.7. Plazas en CC.AA. con lengua cooficial (Navarra, Euskadi, C. Valenciana, Baleares, Cataluña)</h3>
+                  <div class="section-desc">Hasta un máximo de 5,0000 puntos según la convocatoria específica de la Administración convocante.</div>
+                </div>
+                <div class="merit-subtotal"><span id="res_67">0,0000</span> pts</div>
+              </div>
+              <div style="max-width: 220px;">
+                <input type="number" min="0" max="5.0" step="0.1" value="0" class="select-input" data-bind="p67_linguistica_pts" placeholder="Puntos específicos (hasta 5.0)">
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </div> <!-- Fin Columna Principal -->
+
+      <!-- ======================================================== -->
+      <!-- BARRA LATERAL FIJA: RESUMEN Y PUNTUACIÓN TOTAL -->
+      <!-- ======================================================== -->
+      <aside class="sidebar-column">
+        <div class="sidebar-sticky">
+
+          <!-- Tarjeta de Puntuación Total -->
+          <div class="score-card">
+            <div class="score-card-header">
+              <span class="score-badge">Total Baremo</span>
+              <span style="font-size:0.8rem; color:var(--text-light);">4 decimales</span>
+            </div>
+
+            <div class="total-score-display" id="grand_total_display">0,0000</div>
+            <div class="score-sublabel">Puntuación total acumulada computable</div>
+
+            <!-- Desglose por Bloques -->
+            <div class="block-breakdown-list">
+              <!-- Bloque 1 -->
+              <div class="breakdown-row">
+                <div class="breakdown-info">
+                  <span class="breakdown-title"><span style="color:var(--accent-1);">●</span> 1. Antigüedad</span>
+                  <span class="breakdown-val" id="sb_val_b1">0,0000</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill progress-fill-1" id="pb_b1" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <!-- Bloque 2 -->
+              <div class="breakdown-row">
+                <div class="breakdown-info">
+                  <span class="breakdown-title"><span style="color:var(--accent-2);">●</span> 2. Cátedras (Máx 5)</span>
+                  <span class="breakdown-val" id="sb_val_b2">0,0000</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill progress-fill-2" id="pb_b2" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <!-- Bloque 3 -->
+              <div class="breakdown-row">
+                <div class="breakdown-info">
+                  <span class="breakdown-title"><span style="color:var(--accent-3);">●</span> 3. Académicos (Máx 10)</span>
+                  <span class="breakdown-val" id="sb_val_b3">0,0000</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill progress-fill-3" id="pb_b3" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <!-- Bloque 4 -->
+              <div class="breakdown-row">
+                <div class="breakdown-info">
+                  <span class="breakdown-title"><span style="color:var(--accent-4);">●</span> 4. Cargos (Máx 30)</span>
+                  <span class="breakdown-val" id="sb_val_b4">0,0000</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill progress-fill-4" id="pb_b4" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <!-- Bloque 5 -->
+              <div class="breakdown-row">
+                <div class="breakdown-info">
+                  <span class="breakdown-title"><span style="color:var(--accent-5);">●</span> 5. Formación (Máx 15)</span>
+                  <span class="breakdown-val" id="sb_val_b5">0,0000</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill progress-fill-5" id="pb_b5" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <!-- Bloque 6 -->
+              <div class="breakdown-row">
+                <div class="breakdown-info">
+                  <span class="breakdown-title"><span style="color:var(--accent-6);">●</span> 6. Otros (Máx 15)</span>
+                  <span class="breakdown-val" id="sb_val_b6">0,0000</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill progress-fill-6" id="pb_b6" style="width: 0%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Botón directo de acción -->
+            <button class="btn btn-primary" style="width:100%; margin-top: 18px; justify-content:center;" onclick="window.print()">
+              <span>📄</span> Generar Informe Imprimible
+            </button>
+          </div>
+
+          <!-- Tarjeta de Publicidad / Patrocinio: Wood & Print Partners -->
+          <div class="woodprint-card">
+            <div class="woodprint-badge">
+              <span>✨</span> Recomendado para profes
+            </div>
+            <div class="woodprint-title">
+              <span>🪵</span> Wood & Print Partners
+            </div>
+            <p class="woodprint-desc">
+              Llaveros 3D, grabado láser en madera, sellos para profes y detalles artesanales personalizados con mimo para alumnos y claustros.
+            </p>
+            <a href="https://www.instagram.com/woodandprintpartners/" target="_blank" rel="noopener noreferrer" class="btn-instagram">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+              <span>@woodandprintpartners ↗</span>
+            </a>
+          </div>
+
+          <!-- Cuadro de información y consejos -->
+          <div class="info-card">
+            <h4>💡 Claves del Concurso 26/27</h4>
+            <ul>
+              <li><strong>Plazo límite de méritos:</strong> Los méritos deben estar cumplidos y perfeccionados a la fecha límite de presentación (26 de noviembre de 2026).</li>
+              <li><strong>Auto-guardado activo:</strong> Los datos se guardan en tu navegador automáticamente.</li>
+              <li><strong>Irrenunciabilidad:</strong> Los destinos adjudicados en la resolución definitiva son irrenunciables.</li>
+            </ul>
+          </div>
+
+        </div>
+      </aside>
+
+    </div>
+
+    <!-- Sección Destacada Idéntica a las otras webs: Wood & Print Partners -->
+    <section class="card wood-promo-card" id="woodAndPrintPromo" style="margin-top:24px;">
+      <div class="wood-promo-header">
+        <span class="wood-badge">✨ PROYECTO COLABORADOR • HECHO A MANO</span>
+        <span style="font-size:0.8rem; font-weight:700; color:#b45309;">🎁 Ideal para docentes, departamentos y centros</span>
+      </div>
+      <div class="wood-title">
+        <span>🪵 Wood & Print Partners</span>
+        <span style="font-size:0.95rem; font-weight:600; color:#92400e;">- Detalles 3D y Grabado Láser Personalizados</span>
+      </div>
+      <p class="wood-desc">
+        ¿Quieres tener un detalle motivador para tus alumnos de Infantil, Primaria, Secundaria, Bachillerato o FP, graduaciones, recuerdos departamentales o despedidas de centro por traslado? En <strong>Wood & Print Partners</strong> diseñamos y fabricamos piezas personalizadas con nombres, logotipos del colegio o instituto y dedicatorias especiales.
+      </p>
+
+      <div class="wood-features">
+        <div class="wood-feature-item">
+          <div class="wood-feature-icon">🔑</div>
+          <div class="wood-feature-text">
+            <strong>Llaveros 3D Personalizados</strong>
+            <span>Con el nombre de cada alumno/a o siglas del departamento en colores y tipografías a elegir.</span>
+          </div>
+        </div>
+
+        <div class="wood-feature-item">
+          <div class="wood-feature-icon">🔖</div>
+          <div class="wood-feature-text">
+            <strong>Grabado Láser en Madera</strong>
+            <span>Marcapáginas, medallas de graduación, diplomas conmemorativos y placas de agradecimiento.</span>
+          </div>
+        </div>
+
+        <div class="wood-feature-item">
+          <div class="wood-feature-icon">🏆</div>
+          <div class="wood-feature-text">
+            <strong>Proyectos para Talleres y Aulas</strong>
+            <span>Trofeos para certámenes escolares, maquetas didácticas y elementos para gamificación de aula.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="wood-actions">
+        <div class="wood-note">
+          <span>📦</span> <span>Encargos a medida para clases completas, institutos y centros educativos.</span>
+        </div>
+        <a href="https://www.instagram.com/woodandprintpartners/" target="_blank" rel="noopener noreferrer" class="btn-instagram" title="Visitar perfil de Instagram de Wood & Print Partners">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+          <span>Ver catálogo y contactar en Instagram (@woodandprintpartners) &rarr;</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Pie de página -->
+  <footer class="woodprint-footer">
+    <div class="container">
+      <p style="margin-bottom:6px;">Calculadora de Méritos • Concurso de Traslados de Ámbito Estatal (BOE-A-2026-20763)</p>
+      <p>Espacio impulsado por <a href="https://www.instagram.com/woodandprintpartners/" target="_blank" rel="noopener noreferrer">@woodandprintpartners</a> 🪵 Detalles 3D y grabado láser personalizados</p>
+    </div>
+  </footer>
+
+  <!-- Modal Criterios de Desempate -->
+  <div class="modal-overlay" id="desempate_modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">⚖️ Criterios de Resolución de Empates (BOE)</h3>
+        <button class="modal-close-btn" id="close_modal_btn">&times;</button>
+      </div>
+      <div class="modal-body" id="desempate_content">
+        <!-- Renderizado dinámico vía JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="boe_data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
