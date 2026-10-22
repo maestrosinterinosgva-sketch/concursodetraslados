@@ -13,15 +13,12 @@ if exist "..\interinos\tools\git\cmd\git.exe" (
     set "GIT_EXE=%~dp0..\interinos\tools\git\cmd\git.exe"
 )
 
-echo Introduce el enlace del repositorio de GitHub:
-echo (Ejemplo: https://github.com/tu-usuario/concurso-traslados.git)
+set "DEFAULT_REPO=https://github.com/maestrosinterinosgva-sketch/concursodetraslados.git"
+echo Repositorio predeterminado: !DEFAULT_REPO!
+echo (Pulsa ENTER directamente para usarlo, o escribe otro enlace)
 echo.
-set /p "REPO_URL=👉 Enlace del repositorio: "
-if "!REPO_URL!"=="" (
-    echo [!] No has introducido ningún enlace.
-    pause
-    exit /b 1
-)
+set /p "REPO_URL=👉 Enlace del repositorio [Enter = predeterminado]: "
+if "!REPO_URL!"=="" set "REPO_URL=!DEFAULT_REPO!"
 
 echo.
 echo Introduce tu GitHub Personal Access Token (o Enter si ya tienes credenciales):
