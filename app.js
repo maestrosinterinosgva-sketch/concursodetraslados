@@ -285,6 +285,12 @@ function updateUI() {
   setTxt('grand_total_display', fmt(res.granTotal));
   setTxt('print_grand_total', fmt(res.granTotal));
 
+  // Sincronizar puntos con el módulo de notas de corte
+  window.lastCalculatedTotal = res.granTotal;
+  if (window.HistoricoModule && typeof window.HistoricoModule.updateUserPoints === 'function') {
+    window.HistoricoModule.updateUserPoints(res.granTotal);
+  }
+
   // Actualizar barras de progreso en barra lateral
   updateSidebarProgress('b1', res.totalB1, 50.0); // B1 sin límite, escala visual 50
   updateSidebarProgress('b2', res.totalB2, 5.0);
@@ -446,6 +452,48 @@ function setupEventListeners() {
       if (e.target === desempateModal) desempateModal.classList.remove('open');
     });
   }
+
+  // Control de cambio de vista principal (Calculadora vs Notas de Corte)
+  const tabCalc = document.getElementById('nav_tab_calc');
+  const tabHist = document.getElementById('nav_tab_historico');
+  const viewCalc = document.getElementById('view_calculator');
+  const viewHist = document.getElementById('view_historico');
+  const topActions = document.querySelector('.top-actions');
+
+  if (tabCalc && tabHist && viewCalc && viewHist) {
+    tabCalc.addEventListener('click', () => {
+      tabCalc.classList.add('active');
+      tabHist.classList.remove('active');
+      viewCalc.style.display = 'block';
+      viewHist.style.display = 'none';
+      if (topActions) topActions.style.display = 'flex';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    tabHist.addEventListener('click', () => {
+      tabHist.classList.add('active');
+      tabCalc.classList.remove('active');
+      viewCalc.style.display = 'none';
+      viewHist.style.display = 'block';
+      if (topActions) topActions.style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (window.HistoricoModule) {
+        if (typeof window.lastCalculatedTotal === 'number') {
+          window.HistoricoModule.updateUserPoints(window.lastCalculatedTotal);
+        } else {
+          window.HistoricoModule.init();
+        }
+      }
+
+      if (typeof gtag === 'function') {
+        gtag('event', 'cambio_vista', {
+          'event_category': 'navegacion',
+          'vista': 'notas_de_corte'
+        });
+      }
+    });
+  }
 }
 
 // -------------------------------------------------------------
@@ -546,7 +594,8 @@ function syncInputsWithState() {
 
 function saveToLocalStorage() {
   try {
-    localStorage.setItem('concurso_traslados_boe2026_state', JSON.stringify(state));
+    const toSave = { ...state, totalPoints: window.lastCalculatedTotal || 0 };
+    localStorage.setItem('concurso_traslados_boe2026_state', JSON.stringify(toSave));
   } catch (e) {
     // Ignore storage quota
   }

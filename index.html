@@ -9,6 +9,51 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Google tag (gtag.js) - Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SM4D94ZE4M"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SM4D94ZE4M');
+
+    // Medición de clics en Wood & Print Partners (@woodandprintpartners)
+    document.addEventListener('click', function(e) {
+      var link = e.target && e.target.closest ? e.target.closest('a[href*="woodandprintpartners"]') : null;
+      if (link && typeof gtag === 'function') {
+        var loc = 'otra';
+        if (link.closest('.header-banner') || link.closest('.action-bar')) loc = 'cabecera';
+        else if (link.closest('#woodAndPrintPromo')) loc = 'tarjeta_destacada';
+        else if (link.closest('.woodprint-card')) loc = 'tarjeta_lateral';
+        else if (link.closest('.woodprint-footer')) loc = 'pie_pagina';
+        gtag('event', 'click_woodandprint', {
+          'event_category': 'promocion',
+          'event_label': loc,
+          'ubicacion_boton': loc,
+          'proyecto': 'concurso_traslados',
+          'destino': 'instagram'
+        });
+      }
+
+      // Medición de acciones clave en la calculadora
+      var printBtn = e.target && e.target.closest ? e.target.closest('#print_btn, button[onclick*="print"]') : null;
+      if (printBtn && typeof gtag === 'function') {
+        gtag('event', 'imprimir_informe', {
+          'event_category': 'herramienta',
+          'event_label': 'generar_pdf'
+        });
+      }
+
+      var presetBtn = e.target && e.target.closest ? e.target.closest('[data-preset]') : null;
+      if (presetBtn && typeof gtag === 'function') {
+        gtag('event', 'cargar_ejemplo', {
+          'event_category': 'interaccion',
+          'preset': presetBtn.dataset.preset
+        });
+      }
+    });
+  </script>
 </head>
 <body>
 
@@ -91,7 +136,21 @@
 
   <!-- Contenedor Principal con Grid -->
   <main class="container">
-    <div class="main-layout">
+
+    <!-- Pestañas Principales de Navegación -->
+    <nav class="main-nav-tabs" aria-label="Navegación principal">
+      <button class="nav-tab-btn active" id="nav_tab_calc">
+        <span>🧮</span> Calculadora de Méritos (BOE 2026/2027)
+      </button>
+      <button class="nav-tab-btn" id="nav_tab_historico">
+        <span>🎯</span> Buscador de Notas de Corte y Destinos (CV)
+        <span class="nav-tab-badge">5.136 Plazas</span>
+      </button>
+    </nav>
+
+    <!-- VISTA 1: CALCULADORA DE MÉRITOS -->
+    <div id="view_calculator" class="main-view active">
+      <div class="main-layout">
 
       <!-- Columna Principal: Formulario del Baremo -->
       <div class="content-column">
@@ -1256,7 +1315,137 @@
         </div>
       </aside>
 
-    </div>
+      </div> <!-- .main-layout -->
+    </div> <!-- #view_calculator -->
+
+    <!-- VISTA 2: NOTAS DE CORTE Y DESTINOS ADJUDICADOS -->
+    <div id="view_historico" class="main-view" style="display:none;">
+      <!-- Hero Header -->
+      <section class="hist-hero">
+        <div class="hist-hero-title">
+          <span>🎯</span> Buscador Oficial de Notas de Corte y Destinos Adjudicados
+        </div>
+        <p class="hist-hero-subtitle">
+          Consulta con qué puntuación mínima se obtuvo plaza en cada colegio o instituto en el último concurso de traslados de la Comunitat Valenciana (Resolución de 25 de marzo de 2026, DOGV núm. 10331 y 10332). Compara al instante tus puntos calculados con las notas de corte reales.
+        </p>
+
+        <div class="hist-stats-row">
+          <div class="hist-stat-chip">
+            <span class="chip-num" id="hist_stat_plazas">5.136</span>
+            <span class="chip-label">Plazas Adjudicadas</span>
+          </div>
+          <div class="hist-stat-chip">
+            <span class="chip-num" id="hist_stat_centros">1.410</span>
+            <span class="chip-label">Centros Educativos</span>
+          </div>
+          <div class="hist-stat-chip">
+            <span class="chip-num" id="hist_stat_specs">93</span>
+            <span class="chip-label">Especialidades</span>
+          </div>
+          <div class="hist-stat-chip">
+            <span class="chip-num">2025/2026</span>
+            <span class="chip-label">Última Convocatoria Oficial</span>
+          </div>
+        </div>
+
+        <div id="hist_user_points_badge" class="hist-user-points-badge" style="display:none;">
+          <!-- Renderizado dinámico vía JS -->
+        </div>
+      </section>
+
+      <!-- Panel de Filtros -->
+      <section class="hist-filter-panel">
+        <div class="hist-filter-grid">
+          <!-- Filtro Cuerpo -->
+          <div class="hist-filter-group">
+            <label>Cuerpo Docente</label>
+            <div class="hist-btn-group">
+              <button class="btn-filter-cuerpo active" data-cuerpo-filter="TODOS">Todos</button>
+              <button class="btn-filter-cuerpo" data-cuerpo-filter="MAESTROS">Maestros</button>
+              <button class="btn-filter-cuerpo" data-cuerpo-filter="SECUNDARIA">Secundaria / FP</button>
+            </div>
+          </div>
+
+          <!-- Filtro Especialidad -->
+          <div class="hist-filter-group">
+            <label for="hist_filter_especialidad">Especialidad</label>
+            <select id="hist_filter_especialidad">
+              <option value="TODAS">Cargando especialidades...</option>
+            </select>
+          </div>
+
+          <!-- Filtro Provincia -->
+          <div class="hist-filter-group">
+            <label for="hist_filter_provincia">Provincia</label>
+            <select id="hist_filter_provincia">
+              <option value="TODAS">Todas las provincias</option>
+              <option value="Alicante">Alicante / Alacant</option>
+              <option value="Castellón">Castellón / Castelló</option>
+              <option value="Valencia">Valencia / València</option>
+            </select>
+          </div>
+
+          <!-- Buscador por texto -->
+          <div class="hist-filter-group">
+            <label for="hist_search_input">Búsqueda rápida</label>
+            <div class="hist-search-wrap">
+              <span class="hist-search-icon">🔍</span>
+              <input type="text" id="hist_search_input" placeholder="Colegio, instituto, municipio o código...">
+              <button type="button" class="hist-clear-btn" id="hist_clear_search" title="Limpiar búsqueda">&times;</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filtros secundarios -->
+        <div class="hist-filter-secondary">
+          <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+            <div class="hist-filter-group" style="flex-direction:row; align-items:center; gap:8px;">
+              <label for="hist_sort_select" style="margin-bottom:0;">Ordenar por:</label>
+              <select id="hist_sort_select" style="padding:6px 10px;">
+                <option value="corte_desc">Nota de corte (Mayor a menor)</option>
+                <option value="corte_asc">Nota de corte (Menor a mayor / Más accesible)</option>
+                <option value="plazas_desc">Número de plazas adjudicadas</option>
+                <option value="mun_asc">Municipio (A - Z)</option>
+                <option value="cen_asc">Nombre del centro (A - Z)</option>
+              </select>
+            </div>
+
+            <div id="hist_only_admitted_container" style="display:none;">
+              <label class="hist-checkbox-label" title="Mostrar únicamente colegios e institutos donde tu puntuación supera o iguala la nota de corte">
+                <input type="checkbox" id="hist_only_admitted_cb">
+                <span>🟢 Solo centros donde habría obtenido plaza</span>
+              </label>
+            </div>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:10px;">
+            <button class="hist-reset-btn" id="hist_reset_filters" style="display:none;" title="Restablecer todos los filtros">
+              <span>✕</span> Restablecer filtros
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Barra de resumen de resultados -->
+      <div class="hist-results-summary-bar">
+        <div>
+          Mostrando <strong id="hist_results_count">0</strong> centros con plaza 
+          (<strong id="hist_results_plazas_total">0</strong> plazas en total)
+        </div>
+      </div>
+
+      <!-- Lista de Resultados de Notas de Corte -->
+      <div class="hist-results-list" id="hist_results_list">
+        <!-- Renderizado dinámico vía JS -->
+      </div>
+
+      <!-- Cargar Más Resultados -->
+      <div class="hist-load-more" id="hist_load_more_container" style="display:none;">
+        <button class="btn-load-more" id="hist_load_more_btn">
+          ⬇ Cargar más resultados (<span id="hist_remaining_count">0</span> restantes)
+        </button>
+      </div>
+    </div> <!-- #view_historico -->
 
     <!-- Sección Destacada Idéntica a las otras webs: Wood & Print Partners -->
     <section class="card wood-promo-card" id="woodAndPrintPromo" style="margin-top:24px;">
@@ -1333,6 +1522,8 @@
 
   <!-- Scripts -->
   <script src="boe_data.js"></script>
+  <script src="historico_data.js"></script>
+  <script src="historico.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

@@ -3,3 +3,9 @@
 *.tmp
 .DS_Store
 Thumbs.db
+
+# Archivos pesados descargados para procesamiento
+cgt_25-26_maestros.pdf
+cgt_25-26_secundaria.pdf
+__pycache__/
+*.pyc
